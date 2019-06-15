@@ -21,6 +21,7 @@
 
 int main()
 {
+	system("chcp 65001");
 	IDMap id_map;
 	CityGraph city_graph;
 	Traveller traveller;

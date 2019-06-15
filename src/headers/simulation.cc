@@ -90,6 +90,7 @@ static HANDLE InitOutBuf()
         CONSOLE_TEXTMODE_BUFFER,
         NULL);
     CONSOLE_CURSOR_INFO cci;
+	GetConsoleCursorInfo(hTempOutBuf, &cci);
     cci.bVisible = 0;
     SetConsoleCursorInfo(hTempOutBuf, &cci);
     return hTempOutBuf;

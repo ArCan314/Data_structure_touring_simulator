@@ -731,7 +731,7 @@ bool SetConsoleFontSize()
 void ClearScreen()
 {
 #if defined(_WIN32) || (defined(__CYGWIN__) && !defined(_WIN32)) || defined(__MINGW32__) || defined(__MINGW64__)
-    static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     COORD topLeft = {0, 0};
@@ -849,6 +849,7 @@ Time InputLimitTime()
     std::string info;
     int day;
     int hour;
+	std::size_t digit;
 
     while (1)
     {
@@ -859,7 +860,18 @@ Time InputLimitTime()
         std::cin >> info;
         if (std::cin.good())
         {
-            day = std::stoi(info);
+			for(digit = 0; digit < info.length(); digit++)
+				if (!std::isdigit(info.at(digit)))
+					break;
+
+			if (digit == info.length())
+				day = std::stoi(info);
+			else
+			{
+				ErrorMsg("无效的输入，请重新输入");
+				continue;
+			}
+
             if (day >= 1)
             {
                 std::cout << "第" << day << "天到达" << std::endl;
@@ -881,9 +893,21 @@ Time InputLimitTime()
         std::cin >> info;
         if (std::cin.good())
         {
-            hour = std::stoi(info);
+			for (digit = 0; digit < info.length(); digit++)
+				if (!std::isdigit(info.at(digit)))
+					break;
+           
+			if (digit == info.length())
+				hour = std::stoi(info);
+			else
+			{
+				ErrorMsg("无效的输入，请重新输入");
+				continue;
+			}
+
             if (hour >= 0 && hour < 24)
             {
+
                 std::cout << hour << "点前" << std::endl;
                 break;
             }
@@ -900,6 +924,7 @@ Time InputInitTime()
 {
     std::string info;
     int hour;
+	std::size_t digit;
 
     while (1)
     {
@@ -910,9 +935,21 @@ Time InputInitTime()
         std::cin >> info;
         if (std::cin.good())
         {
-            hour = std::stoi(info);
+			for (digit = 0; digit < info.length(); digit++)
+				if (!std::isdigit(info.at(digit)))
+					break;
+
+			if (digit == info.length())
+				hour = std::stoi(info);
+			else
+			{
+				ErrorMsg("无效的输入，请重新输入");
+				continue;
+			}
+
             if (hour >= 0 && hour < 24)
             {
+				
                 std::cout << "输入预计出发时间为：" << hour << ":00" << std::endl;
                 break;
             }
